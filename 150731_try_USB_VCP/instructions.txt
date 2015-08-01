@@ -1,15 +1,29 @@
-From Terminal do the following to test receiving a byte (character) array from pyboard:
+From Terminal do the following to test sending/receiving byte (character) arrays to/from pyboard:
 
 python
 >>> import serial
 >>> ser = serial.Serial('/dev/tty.usbmodem1452',9600)
+>>> ser.write('start\n')
+6
 >>> ser.readline()
-'47,23000222\n'
+'start\n'
 >>> ser.readline()
-'48,23500222\n'
+'54,26500222\n'
 >>> ser.readline()
-'49,24000222\n'
+'55,27000222\n'
 >>> ser.readline()
-'50,24500222\n'
+'56,27500222\n'
 
 etc., etc.
+
+>>> ser.write('stop\n')
+5
+>>> ser.readline()
+'96,47500222\n'
+>>> ser.readline()
+'97,48000222\n'
+>>> ser.readline()
+'stop\n'
+>>> ser.readline()
+(Hangs at this point because there's no more input from pyboard. Need to set a 
+timeout period for ser.readline())

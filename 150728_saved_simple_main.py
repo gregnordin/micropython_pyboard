@@ -1,6 +1,9 @@
 # To get a REPL in Terminal:
 screen /dev/tty.usbmodem*
 
+# To open a serial connection to the pyboard on my macbook pro retina:
+ser = serial.Serial('/dev/tty.usbmodem1452',9600)
+
 ---------------------------------------
 # Cool effect with all of the LEDs
 

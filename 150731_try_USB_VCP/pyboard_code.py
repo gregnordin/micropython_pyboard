@@ -42,13 +42,19 @@ micros_timer = pyb.Timer(2, prescaler=83, period=0x3ffffff)
 usb = pyb.USB_VCP()
 Heartbeat()
 sst = serial_speed_test(2)
+write_flag = False
 
 while True:
     if usb.any():
         input = usb.readline()
         usb.write(input)
-    if sst.tick_ready:
-        s = "%d,%d\n" % (sst.tick, sst.micros_timer)
-        #usb.write(s)
-        sst.tick_ready = False
+        if input.startswith('start'):
+            write_flag = True
+        elif input.startswith('stop'):
+            write_flag = False
+    if write_flag:
+        if sst.tick_ready:
+            s = "%d,%d\n" % (sst.tick, sst.micros_timer)
+            usb.write(s)
+            sst.tick_ready = False
         
