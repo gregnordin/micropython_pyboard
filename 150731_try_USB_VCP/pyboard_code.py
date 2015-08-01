@@ -44,9 +44,11 @@ Heartbeat()
 sst = serial_speed_test(2)
 
 while True:
+    if usb.any():
+        input = usb.readline()
+        usb.write(input)
     if sst.tick_ready:
         s = "%d,%d\n" % (sst.tick, sst.micros_timer)
-        usb.write(s)
-        #usb.write("confirmed\n")
+        #usb.write(s)
         sst.tick_ready = False
         
