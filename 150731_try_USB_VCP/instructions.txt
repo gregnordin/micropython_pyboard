@@ -1,0 +1,15 @@
+From Terminal do the following to test receiving a byte (character) array from pyboard:
+
+python
+>>> import serial
+>>> ser = serial.Serial('/dev/tty.usbmodem1452',9600)
+>>> ser.readline()
+'30\n'
+>>> ser.readline()
+'confirmed\n'
+>>> ser.readline()
+'31\n'
+>>> ser.readline()
+'confirmed\n'
+
+etc., etc.
