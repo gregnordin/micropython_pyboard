@@ -23,12 +23,14 @@ class serial_speed_test(object):
     def __init__(self, freq_Hz):
         self.tick = 0
         self.tick_ready = False
+        self.micros_timer = micros_timer.counter()
         self.freq_Hz = freq_Hz
         tim1 = pyb.Timer(1)
         tim1.init(freq=freq_Hz)
         tim1.callback(self.serial_speed_test_cb)
 
     def serial_speed_test_cb(self, tim1):
+        self.micros_timer = micros_timer.counter()
         self.tick_ready = True
         #print(micros_timer.counter(), ',', 40*self.tick)
         self.tick = (self.tick + 1) % 100
@@ -43,10 +45,8 @@ sst = serial_speed_test(2)
 
 while True:
     if sst.tick_ready:
-        s = "%d\n" % sst.tick
-        #s = "hello!\n"
+        s = "%d,%d\n" % (sst.tick, sst.micros_timer)
         usb.write(s)
-        usb.write("confirmed\n")
+        #usb.write("confirmed\n")
         sst.tick_ready = False
-        #print(sst.tick)
         

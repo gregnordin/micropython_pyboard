@@ -4,12 +4,12 @@ python
 >>> import serial
 >>> ser = serial.Serial('/dev/tty.usbmodem1452',9600)
 >>> ser.readline()
-'30\n'
+'47,23000222\n'
 >>> ser.readline()
-'confirmed\n'
+'48,23500222\n'
 >>> ser.readline()
-'31\n'
+'49,24000222\n'
 >>> ser.readline()
-'confirmed\n'
+'50,24500222\n'
 
 etc., etc.
