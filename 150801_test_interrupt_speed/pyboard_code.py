@@ -32,8 +32,7 @@ class serial_speed_test(object):
     def serial_speed_test_cb(self, tim1):
         self.micros_timer = micros_timer.counter()
         self.tick_ready = True
-        #print(micros_timer.counter(), ',', 40*self.tick)
-        self.tick = (self.tick + 1) % 100
+        self.tick = (self.tick + 1) % 10000000
 
 micropython.alloc_emergency_exception_buf(100)
 
@@ -42,16 +41,20 @@ micros_timer = pyb.Timer(2, prescaler=83, period=0x3ffffff)
 usb = pyb.USB_VCP()
 Heartbeat()
 sst = serial_speed_test(2)
+running_flag = False
 write_flag = False
 
 while True:
-    if usb.any():
-        input = usb.readline()
-        usb.write(input)
-        if input.startswith('start'):
-            write_flag = True
-        elif input.startswith('stop'):
-            write_flag = False
+    if running_flag is False:
+        if usb.any():
+            input = usb.readline()
+            usb.write(input+'\n')
+            if input.startswith('start'):
+                write_flag = True
+            elif input.startswith('stop'):
+                write_flag = False
+            elif input.startswith('reset'):
+                write_flag = False
     if write_flag:
         if sst.tick_ready:
             s = "%d,%d\n" % (sst.tick, sst.micros_timer)
